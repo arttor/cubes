@@ -64,12 +64,12 @@ public class InputUtil {
                 "00000" +
                 "-000-" +
                 "--0--");
-        faces[1] = new Face("-0-0" +
+        faces[1] = new Face("--0-0" +
                 "00000" +
                 "-000-" +
                 "00000" +
                 "-0-00");
-        faces[2] = new Face(" 0 0 " +
+        faces[2] = new Face("-0-0-" +
                 "-000-" +
                 "00000" +
                 "-000-" +
