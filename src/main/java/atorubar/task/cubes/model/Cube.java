@@ -10,7 +10,8 @@ public class Cube {
      * Number of faces for 3-dimensional cube
      */
     public static final int SIZE = 6;
-    private final Face[] faces;
+    protected Face[] faces;
+    protected Cube(){}
 
     /**
      * Creates Cube from given faces
