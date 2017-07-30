@@ -11,16 +11,33 @@ import javax.annotation.Nullable;
 public class CubeSolver extends Cube {
     @Nullable
     private Cube solved;
-
+    private int numberOfIterations;
 
     /**
-     * Read cubes faces to solve puzzle
+     * Returns number of iterations from last solution
      *
-     * @param faces array of 6 cube faces.
+     * @return number of iterations - sum of cube faces rotations and permutations
      */
-    public void readFaces(Face[] faces) {
-        this.faces = faces;
+    public int getNumberOfIterations() {
+        return numberOfIterations;
+    }
+
+    /**
+     * Read cube faces to solve puzzle
+     *
+     * @param cubeFaces array of 6 cube faces.
+     */
+    public void readFaces(Face[] cubeFaces) {
+        if (cubeFaces == null || cubeFaces.length != SIZE) {
+            throw new IllegalArgumentException("Wrong format. Cube have to contain exactly " + SIZE + " faces");
+        }
+        // copy faces
+        this.faces = new Face[SIZE];
+        for (int i = 0; i < cubeFaces.length; i++) {
+            this.faces[i] = new Face(cubeFaces[i]);
+        }
         solved = null;
+        numberOfIterations = 0;
     }
 
     /**
@@ -33,7 +50,9 @@ public class CubeSolver extends Cube {
         if (faces == null) {
             throw new IllegalStateException("Please read Cube faces before solving");
         }
-        if (solved != null) return solved;
+        if (solved != null) {
+            return solved;
+        }
 
         // go through all possible (4^6)-1  faces rotations where 6-number of faces and 4-number of rotations
         for (int i = 0; i < Math.pow(4, 6); i++) {
@@ -42,7 +61,9 @@ public class CubeSolver extends Cube {
             for (int r = 5; r >= 0; r--) {
                 int tmp = div / 4;
                 rotations[r] = div - (tmp * 4);
-                if (tmp == 0) break;
+                if (tmp == 0) {
+                    break;
+                }
                 div = tmp;
             }
             Face[] rotatedFaces = new Face[6];
@@ -55,21 +76,24 @@ public class CubeSolver extends Cube {
         return solved;
     }
 
-    @Nullable
     // go through all array permutations by using recursion
     private void permute(Face[] arr, int k) {
-        if (solved != null) return;
+        if (solved != null) {
+            return;
+        }
         for (int i = k; i < arr.length; i++) {
             arrSwap(arr, i, k);
             permute(arr, k + 1);
-            if (solved != null) return;
+            if (solved != null) {
+                return;
+            }
             arrSwap(arr, k, i);
         }
         if (k == arr.length - 1) {
             Cube cube = new Cube(arr);
+            numberOfIterations++;
             if (cube.isSolved()) {
                 solved = cube;
-                solved.print();
             }
         }
     }

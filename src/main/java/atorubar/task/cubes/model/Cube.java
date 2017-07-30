@@ -65,10 +65,19 @@ public class Cube {
                         && faces[0].getRtCorner() + faces[4].getRbCorner() + faces[5].getRtCorner() == 1;
     }
 
-    public void print() {
-        for (int i = 0; i < SIZE; i++) {
-            System.out.println(i);
-            faces[i].print();
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        for (int j = 2; j < SIZE; j++) {
+            for (int i = 0; i < Face.SIZE; i++) {
+                sb.append((j==2)?faces[0].getRowAsString(i):Face.EMPTY_ROW_STR);
+                sb.append((j==2)?faces[1].getRowAsString(i):faces[j].getRowAsString(i));
+                sb.append((j==2)?faces[2].getRowAsString(i):Face.EMPTY_ROW_STR);
+                sb.append("\n");
+            }
         }
+
+        return sb.toString();
     }
 }
