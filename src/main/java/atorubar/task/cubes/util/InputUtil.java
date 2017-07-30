@@ -6,7 +6,7 @@ import atorubar.task.cubes.model.Face;
  * Util class for cubes input
  */
 public class InputUtil {
-    private InputUtil(){
+    private InputUtil() {
         throw new IllegalStateException("Do not instantiate utility class");
     }
 

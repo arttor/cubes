@@ -4,7 +4,6 @@ import atorubar.task.cubes.model.Cube;
 import atorubar.task.cubes.model.Face;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 /**
  * Cube puzzle solver class. This implementation is not thread-safe
@@ -84,8 +83,8 @@ public class CubeSolver extends Cube {
      */
     private static void arrSwap(Face[] array, int a, int b) {
         Face tmp = array[a];
-        array[a]=array[b];
-        array[b]=tmp;
+        array[a] = array[b];
+        array[b] = tmp;
     }
 
 }

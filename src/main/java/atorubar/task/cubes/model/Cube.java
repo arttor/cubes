@@ -1,7 +1,5 @@
 package atorubar.task.cubes.model;
 
-import java.io.IOException;
-
 /**
  * Class represents 3-dimensional Cube
  */
@@ -11,7 +9,9 @@ public class Cube {
      */
     public static final int SIZE = 6;
     protected Face[] faces;
-    protected Cube(){}
+
+    protected Cube() {
+    }
 
     /**
      * Creates Cube from given faces
