@@ -18,7 +18,7 @@ public class FaceTest {
         "0000-" +
         "00-0-"
         */
-        face = InputUtil.getCubeFaces()[3];
+        face = InputUtil.getCubeFacesExample1()[3];
     }
 
     @Test(expected = IllegalArgumentException.class)

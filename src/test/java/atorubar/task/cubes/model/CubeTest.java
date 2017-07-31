@@ -12,7 +12,7 @@ public class CubeTest {
 
     @Test
     public void isSolved() throws Exception {
-        Cube cube = new Cube(InputUtil.getCubeFaces());
+        Cube cube = new Cube(InputUtil.getCubeFacesExample1());
         assertFalse(cube.isSolved());
         cube = new Cube(InputUtil.getSolvedCubeFaces());
         assertTrue(cube.isSolved());
@@ -20,6 +20,6 @@ public class CubeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void tetIllegalArgumentsInConstructor() throws Exception {
-        new Cube(Arrays.copyOf(InputUtil.getCubeFaces(), 5));
+        new Cube(Arrays.copyOf(InputUtil.getCubeFacesExample1(), 5));
     }
 }

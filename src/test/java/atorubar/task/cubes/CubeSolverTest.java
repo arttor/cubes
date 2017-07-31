@@ -16,7 +16,7 @@ public class CubeSolverTest {
     @Test
     public void solvePuzzleFromExample() throws Exception {
         CubeSolver solver = new CubeSolver();
-        solver.readFaces(InputUtil.getCubeFaces());
+        solver.readFaces(InputUtil.getCubeFacesExample1());
         Cube solution = solver.solve();
         assertNotNull(solution);
         System.out.println(solution);
