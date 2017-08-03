@@ -58,13 +58,14 @@ public class CubeSolver extends Cube {
             return solved;
         }
 
-        //go through all possible (2^6)-1  faces inversions where 6-number of faces and 2-number of inversions
+        //go through all possible (2^6)  faces inversions where 6-number of faces and 2-number of inversions
         for (int i = 0; i < Math.pow(2, 6); i++) {
             Face[] invertedFaces = new Face[6];
             for (int j = 0; j < faces.length; j++) {
+                // here we represent combination of inversions as binary number
                 invertedFaces[j] = getBit(i, j) ? faces[j].turnOver() : faces[j];
             }
-            // go through all possible (4^6)-1  faces rotations where 6-number of faces and 4-number of rotations
+            // go through all possible (4^6)  faces rotations where 6-number of faces and 4-number of rotations
             for (int r = 0; r < Math.pow(4, 6); r++) {
                 int[] rotations = new int[6];
                 int div = r;
