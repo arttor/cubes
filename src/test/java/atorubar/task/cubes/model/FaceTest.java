@@ -78,4 +78,18 @@ public class FaceTest {
         assertEquals(face.getTopEdge(), 0b101);
     }
 
+    @Test
+    public void turnOver() throws Exception {
+        Face inverted = face.turnOver();
+
+        assertEquals(face.getTopEdge(), inverted.getReversedTopEdge());
+        assertEquals(face.getRightEdge(), inverted.getReversedLeftEdge());
+        assertEquals(face.getBotEdge(), inverted.getReversedBotEdge());
+        assertEquals(face.getLeftEdge(), inverted.getReversedRightEdge());
+
+        assertEquals(face.getLtCorner(), inverted.getRtCorner());
+        assertEquals(face.getLbCorner(), inverted.getRbCorner());
+
+    }
+
 }

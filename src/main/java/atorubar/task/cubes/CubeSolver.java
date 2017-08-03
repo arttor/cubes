@@ -6,12 +6,16 @@ import atorubar.task.cubes.model.Face;
 import javax.annotation.Nullable;
 
 /**
- * Cube puzzle solver class. This implementation is not thread-safe
+ * Cube puzzle brute force solver class. This implementation is not thread-safe
  */
 public class CubeSolver extends Cube {
     @Nullable
     private Cube solved;
     private int numberOfIterations;
+
+    public void setNumberOfIterations(int numberOfIterations) {
+        this.numberOfIterations = numberOfIterations;
+    }
 
     /**
      * Returns number of iterations from last solution
@@ -54,24 +58,35 @@ public class CubeSolver extends Cube {
             return solved;
         }
 
-        // go through all possible (4^6)-1  faces rotations where 6-number of faces and 4-number of rotations
-        for (int i = 0; i < Math.pow(4, 6); i++) {
-            int[] rotations = new int[6];
-            int div = i;
-            for (int r = 5; r >= 0; r--) {
-                int tmp = div / 4;
-                rotations[r] = div - (tmp * 4);
-                if (tmp == 0) {
-                    break;
-                }
-                div = tmp;
-            }
-            Face[] rotatedFaces = new Face[6];
+        //go through all possible (2^6)-1  faces inversions where 6-number of faces and 2-number of inversions
+        for (int i = 0; i < Math.pow(2, 6); i++) {
+            Face[] invertedFaces = new Face[6];
             for (int j = 0; j < faces.length; j++) {
-                rotatedFaces[j] = faces[j].rotate(rotations[j]);
+                invertedFaces[j] = getBit(i, j) ? faces[j].turnOver() : faces[j];
             }
-            // go through all array permutations
-            permute(rotatedFaces, 0);
+            // go through all possible (4^6)-1  faces rotations where 6-number of faces and 4-number of rotations
+            for (int r = 0; r < Math.pow(4, 6); r++) {
+                int[] rotations = new int[6];
+                int div = r;
+                for (int j = 5; j >= 0; j--) {
+                    int tmp = div / 4;
+                    rotations[j] = div - (tmp * 4);
+                    if (tmp == 0) {
+                        break;
+                    }
+                    div = tmp;
+                }
+                Face[] rotatedFaces = new Face[6];
+                for (int j = 0; j < invertedFaces.length; j++) {
+                    rotatedFaces[j] = invertedFaces[j].rotate(rotations[j]);
+                }
+                // go through all array permutations
+                permute(rotatedFaces, 0);
+
+                if (solved != null) {
+                    return solved;
+                }
+            }
         }
         return solved;
     }
@@ -109,6 +124,10 @@ public class CubeSolver extends Cube {
         Face tmp = array[a];
         array[a] = array[b];
         array[b] = tmp;
+    }
+
+    private static boolean getBit(int value, int position) {
+        return ((value >> position) & 1) == 1;
     }
 
 }

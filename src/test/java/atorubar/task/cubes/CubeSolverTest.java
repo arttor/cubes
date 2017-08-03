@@ -20,6 +20,7 @@ public class CubeSolverTest {
         Cube solution = solver.solve();
         assertNotNull(solution);
         System.out.println(solution);
+        System.out.println("Solved for " + solver.getNumberOfIterations() + " iterations");
         Files.write(Paths.get("./solution.txt"), solution.toString().getBytes());
     }
 

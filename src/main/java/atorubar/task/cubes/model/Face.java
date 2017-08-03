@@ -36,33 +36,17 @@ public class Face {
     private byte rightEdge;
     private byte botEdge;
     private byte leftEdge;
+
+    // we need to store reversed edges for comparision
+    private byte reversedTopEdge;
+    private byte reversedRightEdge;
+    private byte reversedBotEdge;
+    private byte reversedLeftEdge;
+
     private byte ltCorner;
     private byte rtCorner;
     private byte rbCorner;
-
-    public byte getLtCorner() {
-        return ltCorner;
-    }
-
-    public byte getRtCorner() {
-        return rtCorner;
-    }
-
-    public byte getRbCorner() {
-        return rbCorner;
-    }
-
-    public byte getLbCorner() {
-        return lbCorner;
-    }
-
-    private byte lbCorner = 0;
-
-    // we need to store reversed edges for comparision
-    private byte reversedTopEdge = 0;
-    private byte reversedRightEdge = 0;
-    private byte reversedBotEdge = 0;
-    private byte reversedLeftEdge = 0;
+    private byte lbCorner;
 
     public Face(Face face) {
         this.topEdge = face.topEdge;
@@ -74,7 +58,7 @@ public class Face {
         this.reversedBotEdge = face.reversedBotEdge;
         this.reversedLeftEdge = face.reversedLeftEdge;
         this.ltCorner = face.ltCorner;
-        this.rtCorner = face.rbCorner;
+        this.rtCorner = face.rtCorner;
         this.rbCorner = face.rbCorner;
         this.lbCorner = face.lbCorner;
     }
@@ -172,37 +156,41 @@ public class Face {
 
     }
 
+    /**
+     * Turns over the Cube face
+     */
+    private void turnOverItself() {
+        byte tmp = leftEdge;
+        leftEdge = reversedRightEdge;
+        reversedRightEdge = tmp;
+
+        tmp = rightEdge;
+        rightEdge = reversedLeftEdge;
+        reversedLeftEdge = tmp;
+
+        tmp = topEdge;
+        topEdge = reversedTopEdge;
+        reversedTopEdge = tmp;
+
+        tmp = botEdge;
+        botEdge = reversedBotEdge;
+        reversedBotEdge = tmp;
+
+        tmp = ltCorner;
+        ltCorner = rtCorner;
+        rtCorner = tmp;
+
+        tmp = lbCorner;
+        lbCorner = rbCorner;
+        rbCorner = tmp;
+    }
+
     private byte getEdgeCell(byte edge, int position) {
         return (byte) ((edge >> position) & 1);
     }
 
     private String getEdgeCellAsStr(byte edge, int position) {
         return getEdgeCell(edge, position) == 0 ? E : F;
-    }
-
-    /**
-     * Rotates Cube Face clockwise on 90 degrees specified number of times
-     *
-     * @param numberOfRotations number of rotations. This parameter have to be positive number.
-     * @return rotated cube face
-     */
-    public Face rotate(int numberOfRotations) {
-        if (numberOfRotations < 0) {
-            throw new IllegalArgumentException("numberOfRotations must be positive number");
-        }
-        // there is no point to rotate 4 times or more
-        numberOfRotations = numberOfRotations % 4;
-        Face rotated = new Face(this);
-
-        while (numberOfRotations > 0) {
-            rotated.rotate();
-            numberOfRotations--;
-        }
-        return rotated;
-    }
-
-    public static boolean isEdgesMatch(byte edgeA, byte edgeB) {
-        return FILLED_EDGE == (edgeA ^ edgeB);
     }
 
     private byte fillCellOnEdge(byte edge, int cellNum) {
@@ -239,6 +227,59 @@ public class Face {
 
     public byte getReversedLeftEdge() {
         return reversedLeftEdge;
+    }
+
+    public byte getLtCorner() {
+        return ltCorner;
+    }
+
+    public byte getRtCorner() {
+        return rtCorner;
+    }
+
+    public byte getRbCorner() {
+        return rbCorner;
+    }
+
+    public byte getLbCorner() {
+        return lbCorner;
+    }
+
+
+    public static boolean isEdgesMatch(byte edgeA, byte edgeB) {
+        return FILLED_EDGE == (edgeA ^ edgeB);
+    }
+
+    /**
+     * Rotates Cube Face clockwise on 90 degrees specified number of times
+     *
+     * @param numberOfRotations number of rotations. This parameter have to be positive number.
+     * @return rotated cube face
+     */
+    public Face rotate(int numberOfRotations) {
+        if (numberOfRotations < 0) {
+            throw new IllegalArgumentException("numberOfRotations must be positive number");
+        }
+        // there is no point to rotate 4 times or more
+        numberOfRotations = numberOfRotations % 4;
+        Face rotated = new Face(this);
+
+        while (numberOfRotations > 0) {
+            rotated.rotate();
+            numberOfRotations--;
+        }
+        return rotated;
+    }
+
+    /**
+     * Turns over the Cube face
+     *
+     * @return inverted cube face
+     */
+    public Face turnOver() {
+        Face inverted = new Face(this);
+        inverted.turnOverItself();
+        return inverted;
     }
 
     /**
